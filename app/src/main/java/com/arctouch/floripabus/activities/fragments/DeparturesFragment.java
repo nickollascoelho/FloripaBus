@@ -22,9 +22,9 @@ public class DeparturesFragment extends ListFragment implements Receiver<List<De
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        DialogUtil.showProgressDialog("Wait a moment...", "Searching", this.getActivity());
-        Integer selectedRouteId = ((DetailsActivity) this.getActivity()).getSelectedRouteId();
-        new SearchDeparturesByRouteTask(this).execute();
+        DialogUtil.showProgressDialog("Wait a moment...", "Searching", getActivity());
+        Integer selectedRouteId = ((DetailsActivity) getActivity()).getSelectedRouteId();
+        new SearchDeparturesByRouteTask(this).execute(selectedRouteId);
     }
 
 
@@ -37,6 +37,7 @@ public class DeparturesFragment extends ListFragment implements Receiver<List<De
         List<Map<String, String>> dataList = parseDeparturesToMap(departures);
         String[] from = new String[]{"calendar", "time"};
         int[] to = new int[]{R.id.calendarTextView, R.id.timeTextView};
+
         setListAdapter(new SimpleAdapter(getActivity(), dataList, R.layout.departure_row_layout, from, to));
     }
 
