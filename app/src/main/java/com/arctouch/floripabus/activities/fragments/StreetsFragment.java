@@ -21,10 +21,10 @@ public class StreetsFragment extends ListFragment {
         super.onCreate(savedInstanceState);
         Bundle args = getArguments();
         StreetsResult stops = (StreetsResult) args.get("stops");
-        showStops(stops.getStreets());
+        showStreets(stops.getStreets());
     }
 
-    private void showStops(List<Street> streets) {
+    private void showStreets(List<Street> streets) {
         if (streets == null || streets.isEmpty()) {
             setListAdapter(null);
             return;

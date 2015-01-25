@@ -34,14 +34,14 @@ public class DeparturesFragment extends ListFragment implements Receiver<List<De
             return;
         }
 
-        List<Map<String, String>> dataList = parseDeparturesToMap(departures);
+        List<Map<String, String>> dataList = parseToMap(departures);
         String[] from = new String[]{"calendar", "time"};
         int[] to = new int[]{R.id.calendarTextView, R.id.timeTextView};
 
         setListAdapter(new SimpleAdapter(getActivity(), dataList, R.layout.departure_row_layout, from, to));
     }
 
-    private List<Map<String, String>> parseDeparturesToMap(List<Departure> departures) {
+    private List<Map<String, String>> parseToMap(List<Departure> departures) {
         List<Map<String, String>> dataList = new ArrayList<Map<String, String>>();
 
         for (Departure departure : departures) {

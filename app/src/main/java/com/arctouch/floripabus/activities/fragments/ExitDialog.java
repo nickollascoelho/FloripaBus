@@ -17,7 +17,6 @@ public class ExitDialog extends DialogFragment {
         dialog.setTitle("Exiting");
         dialog.setMessage("Are you sure?");
 
-        //actions for the dialog
         dialog.setPositiveButton("YES", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialogInterface, int i) {
