@@ -3,10 +3,11 @@ package com.arctouch.floripabus.tasks;
 import android.os.AsyncTask;
 
 import com.arctouch.floripabus.activities.Receiver;
-import com.arctouch.floripabus.common.GeocodeClient;
+import com.arctouch.floripabus.services.GeocodeService;
+import com.google.android.gms.maps.model.LatLng;
 
 
-public class SearchStreetNameTask extends AsyncTask<String, Void, String> {
+public class SearchStreetNameTask extends AsyncTask<LatLng, Void, String> {
 
     private final Receiver<String> receiver;
 
@@ -15,8 +16,8 @@ public class SearchStreetNameTask extends AsyncTask<String, Void, String> {
     }
 
     @Override
-    protected String doInBackground(String... latLong) {
-        return GeocodeClient.getInstance().getStreetName(latLong[0]);
+    protected String doInBackground(LatLng... latLong) {
+        return GeocodeService.getInstance().getStreetName(latLong[0]);
     }
 
     @Override

@@ -22,7 +22,6 @@ import com.google.android.gms.maps.model.LatLng;
 public class GoogleMapActivity extends Activity implements Receiver<String> {
 
     private GoogleMap map;
-    private String latLong;
     private LocationManager locationManager;
     private LocationListener locationListener;
     private Boolean firstTime = true;
@@ -40,7 +39,6 @@ public class GoogleMapActivity extends Activity implements Receiver<String> {
         locationListener = new LocationListener() {
             @Override
             public void onLocationChanged(Location location) {
-                latLong = location.getLatitude() + "," + location.getLongitude();
                 if (firstTime) {
                     map.moveCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 16));
                     firstTime = false;
@@ -92,25 +90,16 @@ public class GoogleMapActivity extends Activity implements Receiver<String> {
             map.animateCamera(CameraUpdateFactory.newLatLngZoom(new LatLng(location.getLatitude(), location.getLongitude()), 13));
 
             CameraPosition cameraPosition = new CameraPosition.Builder()
-                    .target(new LatLng(location.getLatitude(), location.getLongitude()))      // Sets the center of the map to location user
-                    .zoom(16)                   // Sets the zoom
-                    .build();                   // Creates a CameraPosition from the builder
+                    .target(new LatLng(location.getLatitude(), location.getLongitude()))
+                    .zoom(16)
+                    .build();
 
             map.animateCamera(CameraUpdateFactory.newCameraPosition(cameraPosition));
         }
     }
 
     public void executeGetStreetNameTask(LatLng latLng) {
-        this.latLong = latLng.latitude + "," + latLng.longitude;
-        new SearchStreetNameTask(this).execute(getLatLong());
-    }
-
-    public GoogleMap getMap() {
-        return map;
-    }
-
-    public String getLatLong() {
-        return latLong;
+        new SearchStreetNameTask(this).execute(latLng);
     }
 
     @Override

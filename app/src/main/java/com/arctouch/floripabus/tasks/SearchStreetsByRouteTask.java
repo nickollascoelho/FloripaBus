@@ -18,8 +18,8 @@ public class SearchStreetsByRouteTask extends AsyncTask<Integer, Void, List<Stre
     }
 
     @Override
-    protected List<Street> doInBackground(Integer... selectedRoutesId) {
-        return RoutesService.getInstance().findStopsByRouteId(selectedRoutesId[0]);
+    protected List<Street> doInBackground(Integer... selectedRouteId) {
+        return RoutesService.getInstance().findStopsByRouteId(selectedRouteId[0]);
     }
 
     @Override

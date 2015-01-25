@@ -1,24 +1,27 @@
-package com.arctouch.floripabus.common;
+package com.arctouch.floripabus.services;
 
 
-public class GeocodeClient {
+import com.arctouch.floripabus.common.BasicHttpClient;
+import com.google.android.gms.maps.model.LatLng;
+
+public class GeocodeService {
 
     private static final String ENDPOINT = "http://maps.google.com/maps/api/geocode/json?sensor=false&latlng=";
-    private static GeocodeClient instance;
+    private static GeocodeService instance;
 
-    private GeocodeClient() {
+    private GeocodeService() {
 
     }
 
-    public static GeocodeClient getInstance() {
+    public static GeocodeService getInstance() {
         if (instance == null) {
-            instance = new GeocodeClient();
+            instance = new GeocodeService();
         }
         return instance;
     }
 
-    public String getStreetName(String latLong) {
-        String json = getLocationInfo(latLong);
+    public String getStreetName(LatLng latLng) {
+        String json = getLocationInfo(latLng.latitude + "," + latLng.longitude);
 
         String streetName = null;
 

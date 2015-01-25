@@ -18,8 +18,8 @@ public class SearchRouteTask extends AsyncTask<String, Void, List<Route>> {
     }
 
     @Override
-    protected List<Route> doInBackground(String... searchs) {
-        return RoutesService.getInstance().findRoutesByStopName(searchs[0]);
+    protected List<Route> doInBackground(String... search) {
+        return RoutesService.getInstance().findRoutesByStopName(search[0]);
     }
 
     @Override
