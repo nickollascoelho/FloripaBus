@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name">Floripa Bus</string>
+    <string name="exit_the_app">Exit</string>
+    <string name="search_by_location">Use your geolocation</string>
+    <string name="search">Search</string>
+    <string name="txt_search_route_hint">E.g. Mauro Ramos</string>
+    <string name="empty_list_message">No results to show.</string>
+    <string name="action_settings">Settings.</string>
+
+
+</resources>
