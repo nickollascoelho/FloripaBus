@@ -11,9 +11,8 @@ import android.view.MenuItem;
 import com.arctouch.floripabus.R;
 import com.arctouch.floripabus.adapters.DetailsAdapter;
 import com.arctouch.floripabus.common.DialogUtil;
+import com.arctouch.floripabus.model.Route;
 import com.arctouch.floripabus.model.StreetsResult;
-
-import java.util.Map;
 
 public class DetailsActivity extends FragmentActivity implements ActionBar.TabListener {
 
@@ -32,10 +31,10 @@ public class DetailsActivity extends FragmentActivity implements ActionBar.TabLi
         Intent activityMain = getIntent();
 
         this.stopResult = (StreetsResult) activityMain.getExtras().getSerializable("stopResult");
-        Map<String, String> selectedRoute = this.stopResult.getSelectedRoute();
+        Route selectedRoute = this.stopResult.getSelectedRoute();
 
-        this.selectedRouteId = Integer.valueOf(selectedRoute.get("id"));
-        this.setTitle(selectedRoute.get("longName"));
+        this.selectedRouteId = Integer.valueOf(selectedRoute.getId());
+        this.setTitle(selectedRoute.getLongName());
 
         final ActionBar actionBar = getActionBar();
         if(actionBar != null) {

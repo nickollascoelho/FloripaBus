@@ -6,7 +6,7 @@
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/sequenceStopTextView"
+        android:id="@+id/sequenceStreetTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="1"
@@ -17,7 +17,7 @@
         />
 
     <TextView
-        android:id="@+id/nameStopTextView"
+        android:id="@+id/nameStreetTextView"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_weight="3"

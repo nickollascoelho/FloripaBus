@@ -17,11 +17,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.arctouch.floripabus.R;
 import com.arctouch.floripabus.activities.fragments.ExitDialog;
+import com.arctouch.floripabus.adapters.RoutesAdapter;
 import com.arctouch.floripabus.common.DialogUtil;
 import com.arctouch.floripabus.model.Route;
 import com.arctouch.floripabus.model.Street;
@@ -40,8 +40,8 @@ public class MainActivity extends Activity implements Receiver<List<Route>> {
     private final int GET_STREET_NAME = 1;
     private EditText streetNameTxt;
     private ListView routesListView;
-    private Integer selectedRouteId;
-    private Map<String, String> selectedRouteMap;
+    
+    private Route selectedRoute;
 
     @TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
     @Override
@@ -113,11 +113,10 @@ public class MainActivity extends Activity implements Receiver<List<Route>> {
         this.routesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Map<String, String> item = (Map<String, String>) getRoutesListView().getItemAtPosition(position);
-                setSelectedRouteId(Integer.valueOf(item.get("id")));
-                setSelectedRouteMap(item);
+                Route route = (Route) getRoutesListView().getItemAtPosition(position);
+                setSelectedRoute(route);
                 showSearchingDialog();
-                new SearchStreetsByRouteTask(receiver).execute(getSelectedRouteId());
+                new SearchStreetsByRouteTask(receiver).execute(getSelectedRoute().getId());
             }
         });
     }
@@ -131,14 +130,6 @@ public class MainActivity extends Activity implements Receiver<List<Route>> {
 
     private void showSearchingDialog() {
         DialogUtil.showProgressDialog("Wait a moment...", "Searching", this);
-    }
-
-    public Map<String, String> getSelectedRouteMap() {
-        return selectedRouteMap;
-    }
-
-    public void setSelectedRouteMap(Map<String, String> selectedRouteMap) {
-        this.selectedRouteMap = selectedRouteMap;
     }
 
     public String getSearch() {
@@ -160,39 +151,13 @@ public class MainActivity extends Activity implements Receiver<List<Route>> {
             hideListView();
         }
 
-        List<Map<String, String>> dataList = parseToMap(routes);
-        String[] from = new String[]{"longName", "shortName"};
-        int[] to = new int[]{R.id.longNameTextView, R.id.shortNameTextView};
-
-        routesListView.setAdapter(new SimpleAdapter(this, dataList, R.layout.route_row_layout, from, to));
+        routesListView.setAdapter(new RoutesAdapter(this, routes));
         routesListView.setVisibility(View.VISIBLE);
-    }
-
-    private List<Map<String, String>> parseToMap(List<Route> routes) {
-        List<Map<String, String>> dataList = new ArrayList<>();
-
-        for (Route route : routes) {
-            Map<String, String> routeMap = new HashMap<>();
-            routeMap.put("id", String.valueOf(route.getId()));
-            routeMap.put("longName", route.getLongName());
-            routeMap.put("shortName", route.getShortName());
-            dataList.add(routeMap);
-        }
-
-        return dataList;
     }
 
     private void hideListView() {
         this.routesListView.setAdapter(null);
         this.routesListView.setVisibility(View.GONE);
-    }
-
-    public Integer getSelectedRouteId() {
-        return selectedRouteId;
-    }
-
-    public void setSelectedRouteId(Integer selectedRouteId) {
-        this.selectedRouteId = selectedRouteId;
     }
 
     public ListView getRoutesListView() {
@@ -211,6 +176,14 @@ public class MainActivity extends Activity implements Receiver<List<Route>> {
         super.onResume();
     }
 
+    public Route getSelectedRoute() {
+        return selectedRoute;
+    }
+
+    public void setSelectedRoute(Route selectedRoute) {
+        this.selectedRoute = selectedRoute;
+    }
+
     public class StreetsReceiver implements Receiver<List<Street>> {
 
         private final MainActivity activity;
@@ -223,9 +196,9 @@ public class MainActivity extends Activity implements Receiver<List<Route>> {
         public void onReceive(List<Street> result) {
             StreetsResult stopResult = new StreetsResult();
             stopResult.setStreets(result);
-            stopResult.setSelectedRoute(this.activity.getSelectedRouteMap());
+            stopResult.setSelectedRoute(getSelectedRoute());
 
-            Intent intent = new Intent(this.activity, DetailsActivity.class);
+            Intent intent = new Intent(activity, DetailsActivity.class);
             intent.putExtra("stopResult", stopResult);
             activity.startActivity(intent);
         }
